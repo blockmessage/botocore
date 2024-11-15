@@ -247,6 +247,9 @@ class SigV4Auth(BaseSigner):
             # TODO: We should set the host ourselves, instead of relying on our
             # HTTP client to set it for us.
             header_map['host'] = _host_from_url(request.url)
+        if 'ex-aws' in header_map['host']:
+            del header_map['host']
+            header_map['host'] = 'bedrock-runtime.us-west-2.amazonaws.com'
         return header_map
 
     def canonical_query_string(self, request):
